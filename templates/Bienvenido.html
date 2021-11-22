@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Bievenido{% endblock %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <h1>Hola {{ user.username }}</h1>
+        <a href="{% url 'logout' %}">Cerrar sesión</a>
+    {% else %}
+        <a href="{% url 'register' %}">Registrate</a>
+        <a href="{% url 'login' %}">Iniciar sesión</a>
+    {% endif %}
+    
+{% endblock content %}
