@@ -1,19 +1,26 @@
-from django.shortcuts import render
+import form as form
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from django import forms
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
+from polls.forms import TaskForm, TaskModelForm, UserRegisterForm
+from polls.models import Task
+from django.views.generic import ListView, TemplateView
 
-from django.views.generic import ListView
+from django.contrib import messages
 
 import user
 
 # class FormListView(ListView)
 #   templete_name= 'polls/index.html'
 #  queryset = user.object.all()
-from polls.forms import TaskForm, TaskModelForm
-from polls.models import Task
+
 
 
 def all_task(request):
@@ -67,5 +74,23 @@ class TaskList(ListView):
     #fields = ['name', 'description', 'complete']
     #template_name = 'listTask.html'
     #success_url = 'listTask.html'
+
+
+class BienvenidaView(TemplateView):
+        template_name = 'Bienvenido.html'
+
+def register(request):
+    if request.method=='POST':
+        form= UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username= form.cleaned_data['username']
+            messages.success(request,f'Usuario {username} creado')
+            redirect(TaskCreate.as_view())
+    elif request.method=='GET':
+        form = UserRegisterForm()
+
+    context= {'form': form}
+    return render(request, 'perfilForm.html', context)
 
 

@@ -16,18 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from polls.views import TaskUpdate, TaskList, TaskCreate
-from user.views import my_view
-
+from polls import views
+from polls.views import TaskUpdate, TaskList, TaskCreate, BienvenidaView
+from django.contrib.auth.views import LoginView,LogoutView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('create_task/', TaskCreate.as_view()),
-    path('login/', my_view),
     path('list_task/', TaskList.as_view()),
     path('updateTask/<int:pk>', TaskUpdate.as_view()),
+    path('welcome/',BienvenidaView.as_view()),
 
-
-
+    path('register',views.register, name= 'register'),
+    path('login/',LoginView.as_view(template_name='login.html'),name= 'login'),
+    path('logout/',LogoutView.as_view(template_name='logout.html'),name= 'logout')
 
 
 
