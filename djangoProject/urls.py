@@ -17,16 +17,22 @@ from django.contrib import admin
 from django.urls import path
 
 from polls import views
-from polls.views import TaskUpdate, TaskList, TaskCreate, WelcomeView, CategoryCreate, CategoryList
+from polls.views import TaskUpdate, TaskList, TaskCreate, WelcomeView, CategoryCreate, CategoryList, CategoryUpdate, \
+    CategoryDelete
 from django.contrib.auth.views import LoginView,LogoutView
 urlpatterns = [
+
     path('admin/', admin.site.urls),
     path('create_task/', TaskCreate.as_view(), name='create_task'),
     path('list_task/', TaskList.as_view()),
     path('updateTask/<int:pk>', TaskUpdate.as_view()),
     path('welcome/', WelcomeView.as_view()),
+
+
     path('create_category/', CategoryCreate.as_view(), name='create_category'),
-    path('list_category/', CategoryList.as_view()),
+    path('list_category/', CategoryList.as_view(),name='CategoryList'),
+    path('update_category/<int:pk>', CategoryUpdate.as_view(),name='update_category'),
+    path('delete_category/<int:pk>', CategoryDelete.as_view(),name='delete_category'),
 
     path('register', views.register, name= 'register'),
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),

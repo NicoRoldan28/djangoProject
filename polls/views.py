@@ -75,14 +75,25 @@ class TaskList(ListView):
 class CategoryCreate(CreateView):
     form_class = CategoryModelForm
     template_name = 'formCategory.html'
-    # success_url = reverse_lazy('CreateView')
-
+    success_url = reverse_lazy('CategoryList')
 
 class CategoryList(ListView):
     model = Task
     context_object_name = 'category'
     template_name = 'listCategory.html'
     queryset = Category.objects.all()
+
+
+class CategoryDelete(DeleteView):
+    model = Category
+    template_name = 'category_confirm_delete.html'
+    success_url = reverse_lazy('CategoryList')
+
+class CategoryUpdate(UpdateView):
+    model = Category
+    fields = ['name', 'description']
+    template_name = 'formCategory.html'
+    success_url = reverse_lazy('CategoryList')
 
 
 # ----------- WELCOME -----------#
