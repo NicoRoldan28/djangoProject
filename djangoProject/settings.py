@@ -129,4 +129,4 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = gettext_noop ('/list_task')
+LOGIN_REDIRECT_URL = gettext_noop ('/welcome')

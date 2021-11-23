@@ -3,12 +3,14 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 
-from polls.models import Task
+from polls.models import Task, Category
+
 
 class TaskModelForm(ModelForm):
     class Meta:
         model = Task
-        fields = ['name', 'description', 'complete']
+        fields = ['name', 'description', 'complete', 'category']
+
 
 
 class TaskForm(forms.Form):
@@ -38,7 +40,9 @@ class UserRegisterForm(UserCreationForm):
         )
         help_texts = {k:"" for k in fields}
 
-
-
+class CategoryModelForm(ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'description']
 
 
