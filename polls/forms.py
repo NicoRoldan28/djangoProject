@@ -1,3 +1,4 @@
+import self as self
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -7,10 +8,21 @@ from polls.models import Task, Category
 
 
 class TaskModelForm(ModelForm):
+
+
     class Meta:
         model = Task
-        fields = ['name', 'description', 'complete', 'category']
+        fields = ['user', 'name', 'description', 'complete', 'category']
 
+    # Ejemplo de inicializar un valor, no funciono para user
+    #def __init__(self, *args, **kwargs):
+    #   super(TaskModelForm, self).__init__(*args, **kwargs)
+        #    self.fields['user'].widget.attrs = {
+        #   'initial': 1,
+        #   'readonly': False,
+        #   'placeholder': 'Ejemplo de placeholder',
+        #   'required': True
+        #}
 
 
 class TaskForm(forms.Form):

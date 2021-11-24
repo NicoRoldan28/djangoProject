@@ -13,13 +13,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import url
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from polls import views
 from polls.views import TaskUpdate, TaskList, TaskCreate, WelcomeView, CategoryCreate, CategoryList, CategoryUpdate, \
-    CategoryDelete
+    CategoryDelete, TaskViewSet, TaskViewByUser
 from django.contrib.auth.views import LoginView,LogoutView
+from django.urls import include, path
+from rest_framework import routers
+
+
+router = routers.DefaultRouter()
+router.register(r'tasks', TaskViewSet)
+router.register(r'taskByUser', TaskViewByUser)
+
 urlpatterns = [
 
     path('admin/', admin.site.urls),
@@ -36,8 +45,10 @@ urlpatterns = [
 
     path('register', views.register, name= 'register'),
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
-    path('logout/', LogoutView.as_view(template_name='logout.html'), name='logout')
+    path('logout/', LogoutView.as_view(template_name='logout.html'), name='logout'),
 
+    path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 
 
     # la primera parte que es como se va a llamar la url,

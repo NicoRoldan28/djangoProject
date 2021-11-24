@@ -2,12 +2,18 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
+from django.http import HttpResponse
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.shortcuts import render, redirect
-
+from rest_framework import serializers, viewsets
 # Create your views here.
 from django import forms
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
+from rest_framework.views import APIView
+from rest_framework.routers import DefaultRouter
 from polls.forms import TaskForm, TaskModelForm, UserRegisterForm, CategoryModelForm
 from polls.models import Task, Category
 from django.views.generic import ListView, TemplateView
@@ -20,6 +26,7 @@ import user
 # class FormListView(ListView)
 #   templete_name= 'polls/index.html'
 #  queryset = user.object.all()
+from polls.serializer import TaskSerializer
 
 
 def all_task(request):
@@ -44,9 +51,6 @@ class TaskCreate(CreateView):
     form_class = TaskModelForm
     template_name = 'formTask.html'
     success_url = reverse_lazy('create_task')
-
-    # Create y Update, no necesitan success_url
-
 
 class TaskUpdate(UpdateView):
     model = Task
@@ -117,3 +121,17 @@ def register(request):
 
     context = {'form': form}
     return render(request, 'perfilForm.html', context)
+
+# ----------- SERVICES -----------#
+
+class TaskViewSet(viewsets.ModelViewSet):
+    queryset = Task.objects.all().order_by('name')
+    serializer_class = TaskSerializer
+
+class TaskViewByUser(viewsets.ModelViewSet):
+
+    #Falta ver como agregar el parámetro de la URL
+    #TODO
+    queryset = Task.objects.filter(user_id=1)
+    serializer_class = TaskSerializer
+

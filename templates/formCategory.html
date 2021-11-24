@@ -5,10 +5,17 @@
     <title>Form Category</title>
 </head>
 <body>
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save">
-</form>
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <form method="post">{% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Save">
+        </form>
+    {% else %}
+        <H1>NOT AUTHORIZED</H1>
+    {% endif %}
+{% endblock content %}
 </body>
 </html>
 

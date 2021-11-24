@@ -15,5 +15,5 @@ class Task(models.Model):
     description = models.CharField(max_length=255)
     complete = models.BooleanField(default=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
