@@ -88,6 +88,7 @@ class CategoryCreate(CreateView):
     template_name = 'formCategory.html'
     success_url = reverse_lazy('CategoryList')
 
+
 class CategoryList(ListView):
     model = Task
     context_object_name = 'category'
