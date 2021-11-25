@@ -54,6 +54,7 @@
                                         <tr>
                                             <th class="border">Task</th>
                                             <th class="border">Description</th>
+                                            <th class="border">Status</th>
                                             <th class="border-0">
                                                 <a href="{% url 'create_task' %}"><button type="button" class="btn btn-success"> New Task </button></a>
                                             </th>
@@ -62,12 +63,24 @@
                                     <tbody>
                                         {% for task in object_list %}
                                           <tr>
-                                            <td class="border">{{ task.name }}</td>
-                                            <td class="border"> {{ task.description }}</td>
-                                            <td class="border-0">
+                                              <td class="border">{{ task.name }}</td>
+                                              <td class="border"> {{ task.description }}</td>
+                                              {% if task.status == 'TDO' %}
+                                                <td class="border btn-primary" style="color: white"> {{ task.get_status_display }}</td>
+                                              {% endif %}
+                                              {% if task.status == 'PRC' %}
+                                                <td class="border btn-warning" style="color: white"> {{ task.get_status_display }}</td>
+                                              {% endif %}
+                                              {% if task.status == 'OK' %}
+                                                <td class="border btn-success" style="color: white"> {{ task.get_status_display }}</td>
+                                              {% endif %}
+                                              {% if task.status == 'NDO' %}
+                                                <td class="border btn-danger" style="color: white"> {{ task.get_status_display }}</td>
+                                              {% endif %}
+                                              <td class="border-0">
                                                 <a href="{% url 'update_task' task.id %}"><button type="button" class="btn btn-primary"> Edit </button></a>
                                                 <a href="{% url 'delete_task' task.id %}"><button type="button" class="btn btn-danger"> Delete </button></a>
-                                            </td>
+                                              </td>
                                           </tr>
                                         {% endfor %}
                                     </tbody>

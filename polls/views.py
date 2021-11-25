@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.auth.views import LoginView, LogoutView
+from django.core.mail import send_mail
 from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -15,6 +16,8 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from rest_framework.views import APIView
 from rest_framework.routers import DefaultRouter
+
+from djangoProject import settings
 from polls.forms import TaskForm, TaskModelForm, UserRegisterForm, CategoryModelForm
 from polls.models import Task, Category
 from django.views.generic import ListView, TemplateView
@@ -52,7 +55,7 @@ class FormTest(FormView):
 
 class TaskCreate(CreateView):
     model = Task
-    fields = ['name', 'description', 'complete', 'category']
+    fields = ['name', 'description','category', 'status', 'complete']
     template_name = 'formTask.html'
     success_url = reverse_lazy('create_task')
 
@@ -62,7 +65,7 @@ class TaskCreate(CreateView):
 
 class TaskUpdate(UpdateView):
     model = Task
-    fields = ['name', 'description', 'complete']
+    fields = ['name', 'description','category', 'status', 'complete']
     template_name = 'formTask.html'
     success_url = reverse_lazy('list_task')
 
@@ -121,11 +124,18 @@ class WelcomeView(TemplateView):
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
+
         if form.is_valid():
             form.save()
-            username = form.cleaned_data['username']
-            messages.success(request, f'Usuario {username} creado')
-            redirect(views.index)
+
+            send_mail(
+                subject='Cuenta registrada',
+                message='Gracias ' + request.POST['username'] + 'por registrarse en nuestro sitio web',
+                from_email=settings.EMAIL_HOST_USER,
+                auth_password=settings.EMAIL_HOST_PASSWORD,
+                recipient_list=[request.POST['email']])
+
+            return redirect('login')
     elif request.method == 'GET':
         form = UserRegisterForm()
 
