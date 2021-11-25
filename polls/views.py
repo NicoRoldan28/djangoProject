@@ -50,21 +50,26 @@ class FormTest(FormView):
 # ----------- TASK -----------#
 
 class TaskCreate(CreateView):
-    form_class = TaskModelForm
+    model = Task
+    fields = ['name', 'description', 'complete', 'category']
     template_name = 'formTask.html'
     success_url = reverse_lazy('create_task')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(TaskCreate, self).form_valid(form)
 
 class TaskUpdate(UpdateView):
     model = Task
     fields = ['name', 'description', 'complete']
-    template_name = 'polls/formTask.html'
-    success_url = '/polls/task'
-
+    template_name = 'formTask.html'
+    success_url = reverse_lazy('list_task')
 
 class TaskDelete(DeleteView):
-    form_class = TaskModelForm
-    template_name = 'polls/formTask.html'
-    success_url = '/polls/task'
+    model = Task
+    template_name = 'object_confirm_delete.html'
+    success_url = reverse_lazy('list_task')
+
 
 
 class TaskList(ListView):
@@ -92,7 +97,7 @@ class CategoryList(ListView):
 
 class CategoryDelete(DeleteView):
     model = Category
-    template_name = 'category_confirm_delete.html'
+    template_name = 'object_confirm_delete.html'
     success_url = reverse_lazy('CategoryList')
 
 class CategoryUpdate(UpdateView):
