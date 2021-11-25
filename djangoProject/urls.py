@@ -19,7 +19,7 @@ from django.urls import path, include
 
 from polls import views
 from polls.views import TaskUpdate, TaskList, TaskCreate, WelcomeView, CategoryCreate, CategoryList, CategoryUpdate, \
-    CategoryDelete, TaskViewSet, TaskViewByUser
+    CategoryDelete, TaskViewSet, TaskViewByUser, TaskDelete
 from django.contrib.auth.views import LoginView,LogoutView
 from django.urls import include, path
 from rest_framework import routers
@@ -33,8 +33,9 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('create_task/', TaskCreate.as_view(), name='create_task'),
-    path('list_task/', TaskList.as_view()),
-    path('updateTask/<int:pk>', TaskUpdate.as_view()),
+    path('list_task/', TaskList.as_view(),name="list_task"),
+    path('updateTask/<int:pk>', TaskUpdate.as_view(),name= 'update_task'),
+    path('deleteTask/<int:pk>', TaskDelete.as_view(),name='delete_task'),
     path('welcome/', WelcomeView.as_view()),
 
 
