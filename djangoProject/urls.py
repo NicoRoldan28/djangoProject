@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include
 
 from polls import views
@@ -32,6 +33,7 @@ router.register(r'taskByUser', TaskViewByUser)
 urlpatterns = [
 
     path('admin/', admin.site.urls),
+    path('index.html', views.index),
     path('create_task/', TaskCreate.as_view(), name='create_task'),
     path('list_task/', TaskList.as_view()),
     path('updateTask/<int:pk>', TaskUpdate.as_view()),
@@ -54,3 +56,5 @@ urlpatterns = [
     # la primera parte que es como se va a llamar la url,
                         #y despues , el metodo o la clase que vos queres que haga referencia
 ]
+
+urlpatterns += staticfiles_urlpatterns()

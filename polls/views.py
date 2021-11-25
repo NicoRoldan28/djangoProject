@@ -17,7 +17,7 @@ from rest_framework.routers import DefaultRouter
 from polls.forms import TaskForm, TaskModelForm, UserRegisterForm, CategoryModelForm
 from polls.models import Task, Category
 from django.views.generic import ListView, TemplateView
-
+from polls import views
 from django.contrib import messages
 
 import user
@@ -28,6 +28,8 @@ import user
 #  queryset = user.object.all()
 from polls.serializer import TaskSerializer
 
+def index(request):
+    return render(request, "index.html")
 
 def all_task(request):
     return render(request,
@@ -115,7 +117,7 @@ def register(request):
             form.save()
             username = form.cleaned_data['username']
             messages.success(request, f'Usuario {username} creado')
-            redirect(WelcomeView.as_view())
+            redirect(views.index)
     elif request.method == 'GET':
         form = UserRegisterForm()
 
