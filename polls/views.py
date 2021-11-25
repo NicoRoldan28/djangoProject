@@ -1,6 +1,7 @@
+import self as self
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponse
 from rest_framework.response import Response
@@ -76,9 +77,10 @@ class TaskList(ListView):
     model = Task
     context_object_name = 'task'
     template_name = 'listTask.html'
-    # fields = ['name', 'description', 'complete']
-    # template_name = 'listTask.html'
-    # success_url = 'listTask.html'
+
+    def get_queryset(self):
+        id = self.request.user.id
+        return Task.objects.filter(user_id=id)
 
 
 # ----------- CATEGORY -----------#
@@ -140,6 +142,10 @@ class TaskViewByUser(viewsets.ModelViewSet):
 
     #Falta ver como agregar el parámetro de la URL
     #TODO
-    queryset = Task.objects.filter(user_id=1)
     serializer_class = TaskSerializer
+
+    def get_queryset(self):
+        id = self.request.user.id
+        return Task.objects.filter(user_id=id)
+
 

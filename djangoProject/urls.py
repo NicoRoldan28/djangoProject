@@ -20,7 +20,7 @@ from django.urls import path, include
 
 from polls import views
 from polls.views import TaskUpdate, TaskList, TaskCreate, WelcomeView, CategoryCreate, CategoryList, CategoryUpdate, \
-    CategoryDelete, TaskViewSet, TaskViewByUser, TaskDelete
+    CategoryDelete, TaskViewSet, TaskDelete, TaskViewByUser
 from django.contrib.auth.views import LoginView,LogoutView
 from django.urls import include, path
 from rest_framework import routers
@@ -28,7 +28,7 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'tasks', TaskViewSet)
-router.register(r'taskByUser', TaskViewByUser)
+router.register(r'taskByUser', TaskViewByUser, basename='MyModel')
 
 urlpatterns = [
 
