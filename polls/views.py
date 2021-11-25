@@ -65,7 +65,7 @@ class TaskUpdate(UpdateView):
 
 class TaskDelete(DeleteView):
     model = Task
-    template_name = 'task_confirm_delete.html'
+    template_name = 'object_confirm_delete.html'
     success_url = reverse_lazy('list_task')
 
 
@@ -95,7 +95,7 @@ class CategoryList(ListView):
 
 class CategoryDelete(DeleteView):
     model = Category
-    template_name = 'category_confirm_delete.html'
+    template_name = 'object_confirm_delete.html'
     success_url = reverse_lazy('CategoryList')
 
 class CategoryUpdate(UpdateView):
